@@ -10,27 +10,42 @@ class App extends Component {
     numberofclicks: [],
     score: 0,
     top_score: 0,
-    message: "START!!"
+    message: "START!!",
+    rotate: "false"
   };
   //Picture Click event
   clickOnPicture = id => {
+    const shuffledArray = this.shuffleArray(picture);
+    this.setState({ picture: shuffledArray });
+
     if (this.state.numberofclicks.includes(id)) {
       this.setState({
         score: 0,
         numberofclicks: [],
-        message: "Incorrect Click!! Game Over, Click image to restart game"
+        message: "Incorrect Click!! Game Over, Click image to restart game",
+        rotate: "true"
       })
     } else {
       this.setState({
         score: this.state.score + 1,
         numberofclicks: this.state.numberofclicks.concat([id]),
-        message: "Correct!!"
+        message: "Correct!!",
+        rotate: "false"
       })
     }
     if (this.state.score > this.state.top_score) {
       this.setState({ top_score: this.state.score });
     }
-  }//function end
+  }//function end clickOnPicture
+
+  shuffleArray = (picturesArray) => {
+    for (let i = picturesArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [picturesArray[i], picturesArray[j]] = [picturesArray[j], picturesArray[i]];
+    }
+    return picturesArray;
+  }//shuffleArray end
+  
   render() {
     return (
       <div className="App">
